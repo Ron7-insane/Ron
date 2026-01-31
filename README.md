@@ -1,2 +1,302 @@
 # Ron
 My repository 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Valentine 💖</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    height:100vh;
+    width:100vw;
+    background:radial-gradient(circle,#0f0c29,#302b63,#24243e);
+    overflow:hidden;
+    color:white;
+}
+
+/* ================= ENVELOPE ================= */
+
+#envelope-container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:5;
+    perspective:1200px;
+    animation:windFly 3s ease-out forwards;
+}
+
+@keyframes windFly{
+    0%{transform:translate(-150%,-80%) rotate(-20deg);opacity:0;}
+    60%{transform:translate(-45%,-45%) rotate(8deg);opacity:1;}
+    100%{transform:translate(-50%,-50%) rotate(0deg);}
+}
+
+.envelope{
+    width:220px;
+    height:140px;
+    position:relative;
+    transform-style:preserve-3d;
+}
+
+.envelope-base{
+    width:100%;
+    height:100%;
+    background:#ffb6c1;
+    border-radius:10px;
+    position:absolute;
+    z-index:1;
+}
+
+.envelope-flap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#ff69b4;
+    clip-path:polygon(0 0,100% 0,50% 50%);
+    transform-origin:top center;
+    transform:translateZ(1px);
+    transition:transform 0.8s ease;
+    backface-visibility:hidden;
+    z-index:3;
+}
+
+/* ✅ FORWARD OPENING (realistic) */
+.envelope.open .envelope-flap{
+    transform:rotateX(-120deg) translateZ(1px);
+}
+
+.letter{
+    position:absolute;
+    width:90%;
+    height:70%;
+    background:white;
+    color:#ff1493;
+    top:15%;
+    left:5%;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.4em;
+    font-weight:bold;
+    opacity:0;
+    transition:opacity 0.5s ease;
+    z-index:2;
+}
+
+.envelope.open .letter{ opacity:1; }
+
+/* ================= QUESTION ================= */
+
+#questionBox{
+    display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:40px 60px;
+    border-radius:20px;
+    border:3px solid pink;
+    box-shadow:0 0 25px hotpink;
+    text-align:center;
+    background:rgba(0,0,0,0.4);
+}
+
+#questionBox h1{
+    font-size:2.4em;
+    margin-bottom:40px;
+    color:#ffb6c1;
+}
+
+/* ================= BUTTONS ================= */
+
+button{
+    font-size:1.4em;
+    padding:15px 40px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    outline:none;
+    appearance:none;
+    -webkit-appearance:none;
+    transform:scale(1) !important;
+}
+
+button:focus,
+button:active{
+    outline:none;
+    transform:scale(1) !important;
+}
+
+#yes{
+    background:hotpink;
+    color:white;
+}
+
+#no{
+    background:#444;
+    color:white;
+    position:absolute;
+    width:140px;
+    height:55px;
+}
+
+/* ================= PLANE ================= */
+
+#plane{
+    display:none;
+    position:absolute;
+    top:30vh;
+    left:-20vw;
+    font-size:50px;
+    z-index:7;
+    animation:planeFly 3s linear forwards;
+}
+
+@keyframes planeFly{
+    to{ left:120vw; }
+}
+
+/* ================= HEARTS ================= */
+
+.heart{
+    position:absolute;
+    font-size:22px;
+    animation:heartFall 2.5s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes heartFall{
+    to{
+        transform:translateY(260px) scale(0.7);
+        opacity:0;
+    }
+}
+
+/* ================= FINAL PAGE ================= */
+
+#finalPage{
+    display:none;
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle,#ff5fa2,#ff1493);
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    z-index:10;
+}
+
+#finalPage h1{
+    font-size:2.4em;
+    line-height:1.5;
+    text-shadow:0 0 20px white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENVELOPE -->
+<div id="envelope-container">
+    <div class="envelope" id="envelope">
+        <div class="envelope-flap"></div>
+        <div class="letter">Hi Sanjana 💖</div>
+        <div class="envelope-base"></div>
+    </div>
+</div>
+
+<!-- QUESTION -->
+<div id="questionBox">
+    <h1>Wanna be my Valentine? 💘</h1>
+    <button id="yes">YES 💖</button>
+    <button id="no">NO 🙄</button>
+</div>
+
+<!-- PLANE -->
+<div id="plane">✈️</div>
+
+<!-- FINAL -->
+<div id="finalPage">
+    <h1>
+        Yes! 💓<br>
+        Mujhe pata tha Sanjana.<br>
+         Tum "Yes" kahe bina to rehi hi nahi sakhti😉
+    </h1>
+</div>
+
+<script>
+const envelope = document.getElementById("envelope");
+const envelopeBox = document.getElementById("envelope-container");
+const questionBox = document.getElementById("questionBox");
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const plane = document.getElementById("plane");
+const finalPage = document.getElementById("finalPage");
+
+let heartInterval;
+
+/* ENVELOPE FLOW */
+setTimeout(()=> envelope.classList.add("open"), 2500);
+setTimeout(()=> envelope.classList.remove("open"), 4200);
+setTimeout(()=>{
+    envelopeBox.style.display="none";
+    questionBox.style.display="block";
+    moveNo();
+}, 5000);
+
+/* NO BUTTON MOVE */
+function moveNo(){
+    const box = questionBox.getBoundingClientRect();
+    noBtn.style.left = Math.random() * (box.width - noBtn.offsetWidth) + "px";
+    noBtn.style.top  = Math.random() * (box.height - noBtn.offsetHeight) + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", e=>{
+    e.preventDefault();
+    moveNo();
+});
+
+/* HEART SHOWER */
+function startHearts(){
+    heartInterval = setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💖";
+        const r = plane.getBoundingClientRect();
+        heart.style.left = r.left + 20 + "px";
+        heart.style.top  = r.top + 40 + "px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),2500);
+    },120);
+}
+
+/* YES FLOW */
+yesBtn.onclick = ()=>{
+    questionBox.style.display="none";
+    plane.style.display="block";
+    startHearts();
+
+    setTimeout(()=>{
+        clearInterval(heartInterval);
+        plane.style.display="none";
+        finalPage.style.display="flex";
+    },3000);
+};
+</script>
+
+</body>
+</html>
